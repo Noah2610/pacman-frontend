@@ -1,6 +1,9 @@
 
 const objects = {
 	"-": [ "tile",
+		function (x,y) { /* do nothing */ }
+	],
+	"*": [ "point",
 		function (x,y) { fill(255,255,0); ellipseMode(CENTER); ellipse(x,y,settings.pointSize) }
 	],
 	"#": [ "wall",
@@ -16,12 +19,11 @@ const Map = {
 
 	show: function (map) {
 		noStroke();
-		for (let row = 0; row < settings.canvasHeight / settings.blockSize; row++) {
-			for (let col = 0; col < settings.canvasWidth / settings.blockSize; col++) {
-				//console.log(row + " x " + col);
-
+		//for (let row = 0; row < settings.canvasHeight / settings.blockSize; row++) {
+			//for (let col = 0; col < settings.canvasWidth / settings.blockSize; col++) {
+		for (let row = 0; row < mapLayout.length; row++) {
+			for (let col = 0; col < mapLayout[0].length; col++) {
 				objects[mapLayout[row][col]][1](col * settings.blockSize + settings.blockSize / 2, row * settings.blockSize + settings.blockSize / 2);
-
 			}
 		}
 	},

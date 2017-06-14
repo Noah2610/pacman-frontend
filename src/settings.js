@@ -7,7 +7,8 @@ let settings = {
 	blockSize: 32,
 
 	playerImgInterval: 75,
+	playerSpdMult: 2,
 
-	pointSize: 16
+	pointSize: 8
 };
-settings.playerSize = settings.blockSize;
+settings.playerSize = settings.blockSize - 2;
