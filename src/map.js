@@ -1,16 +1,19 @@
 
 const objects = {
-	"-": [ "tile",
+	"-": [ "tileEmpty",
 		function (x,y) { /* do nothing */ }
 	],
+	"_": [ "tileImpass",
+		function (x,y) { fill(64); rectMode(CENTER); rect(x,y,settings.blockSize,settings.blockSize); }
+	],
 	"*": [ "point",
-		function (x,y) { fill(255,255,0); ellipseMode(CENTER); ellipse(x,y,settings.pointSize) }
+		function (x,y) { fill(255,255,0); ellipseMode(CENTER); ellipse(x,y,settings.pointSize); }
 	],
 	"#": [ "wall",
-		function (x,y) { fill(0,0,255); rectMode(CENTER); rect(x,y,settings.blockSize,settings.blockSize) }
+		function (x,y) { fill(0,0,255); rectMode(CENTER); rect(x,y,settings.blockSize,settings.blockSize); }
 	],
 	"G": [ "ghost",
-		function (x,y) { fill(255); rectMode(CENTER); rect(x,y,24,24) }
+		function (x,y) { fill(255); rectMode(CENTER); rect(x,y,24,24); }
 	]
 };
 

@@ -11,6 +11,7 @@ let sounds = {};
 
 let mapLayout = defMap;
 let walls = [];
+let points = [];
 
 
 function preload() {
@@ -29,15 +30,25 @@ function preload() {
 }
 
 function setup() {
-	// get all walls into one array
+	// get all walls and emptyTiles into one array
 	for (let row = 0; row < mapLayout.length; row++) {
 		for (let col = 0; col < mapLayout[0].length; col++) {
-			if (objects[mapLayout[row][col]][0] == "wall") {
+			// impassable objects
+			if (objects[mapLayout[row][col]][0] == "wall" || objects[mapLayout[row][col]][0] == "tileImpass") {
 				let x = col * settings.blockSize;
 				let y = row * settings.blockSize;
 				walls.push({
 					x1: x, y1: y,
 					x2: x + settings.blockSize, y2: y + settings.blockSize
+				});
+			} else
+			// points
+			if (objects[mapLayout[row][col]][0] == "point") {
+				let x = col * settings.pointSize;
+				let y = row * settings.pointSize;
+				points.push({
+					x1: x, y1: y,
+					x2: x + settings.pointSize, y2: y + settings.pointSize
 				});
 			}
 		}

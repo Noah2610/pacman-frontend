@@ -8,37 +8,37 @@ function _player(x=32+settings.blockSize/2, y=32+settings.blockSize/2) {
 	this.imgDir = 1;
 
 
-	this.collisionWall = function (dir=this.dir) {
+	this.collision = function (arr, dir=this.dir) {
 		let half = Math.round(settings.blockSize / 2);
-		for (let count = 0; count < walls.length; count++) {
-			let wall = walls[count];
+		for (let count = 0; count < arr.length; count++) {
+			let block = arr[count];
 			switch (JSON.stringify(dir)) {
 				case "[0,-1]":  // up
 					if (
-					this.x >= wall.x1 && this.x <= wall.x2 &&
-					this.y - half >= wall.y1 && this.y - half <= wall.y2 ) {
-						return true;
+					this.x >= block.x1 && this.x <= block.x2 &&
+					this.y - half >= block.y1 && this.y - half <= block.y2 ) {
+						return block;
 					}
 					break;
 				case "[0,1]":  // down
 					if (
-					this.x >= wall.x1 && this.x <= wall.x2 &&
-					this.y + half >= wall.y1 && this.y + half <= wall.y2 ) {
-						return true;
+					this.x >= block.x1 && this.x <= block.x2 &&
+					this.y + half >= block.y1 && this.y + half <= block.y2 ) {
+						return block;
 					}
 					break;
 				case "[-1,0]":  // left
 					if (
-					this.x - half >= wall.x1 && this.x - half <= wall.x2 &&
-					this.y >= wall.y1 && this.y <= wall.y2 ) {
-						return true;
+					this.x - half >= block.x1 && this.x - half <= block.x2 &&
+					this.y >= block.y1 && this.y <= block.y2 ) {
+						return block;
 					}
 					break;
 				case "[1,0]":  // right
 					if (
-					this.x + half >= wall.x1 && this.x + half <= wall.x2 &&
-					this.y >= wall.y1 && this.y <= wall.y2 ) {
-						return true;
+					this.x + half >= block.x1 && this.x + half <= block.x2 &&
+					this.y >= block.y1 && this.y <= block.y2 ) {
+						return block;
 					}
 					break;
 			}
@@ -46,16 +46,18 @@ function _player(x=32+settings.blockSize/2, y=32+settings.blockSize/2) {
 		return false;
 	};
 
-	
-		//(this.x - settings.blockSize / 2) % 32 == 0 &&
-		//(this.y - settings.blockSize / 2) % 32 == 0
 
 	this.update = function () {
 		this.changeDir();
 
-		if (!this.collisionWall()) {
+		if (!this.collision(walls)) {
 			this.move();
 		} else this.dir = [0,0];
+
+		//let pntCollide = this.collision(points);
+		//if (pntCollide) {
+			//for 
+		//}
 
 		this.show();
 	};
@@ -69,7 +71,7 @@ function _player(x=32+settings.blockSize/2, y=32+settings.blockSize/2) {
 		if ( playerLastKey[0] &&
 		(this.x - settings.blockSize / 2) % 32 == 0 &&
 		(this.y - settings.blockSize / 2) % 32 == 0 &&
-		!this.collisionWall(playerLastKey[1]) ) {
+		!this.collision(walls, playerLastKey[1]) ) {
 			switch (playerLastKey[0]) {
 				case "up":
 					this.dir = [0,-1];
