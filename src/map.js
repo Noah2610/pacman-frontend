@@ -44,7 +44,8 @@ const Map = {
 					walls.push({
 						x1: x, y1: y,
 						x2: x + settings.blockSize, y2: y + settings.blockSize,
-						id: [col,row]
+						id: [col,row],
+						name: objects[mapLayout[row][col]][0]
 					});
 				} else
 				// points
@@ -60,9 +61,10 @@ const Map = {
 				// ghosts
 				if (objects[mapLayout[row][col]][0] == "ghost") {
 					mapLayout[row][col] = "-";
-					let x = col * settings.blockSize + settings.ghostSize;
-					let y = row * settings.blockSize + settings.ghostSize;
+					let x = col * settings.blockSize + settings.blockSize / 2;
+					let y = row * settings.blockSize + settings.blockSize / 2;
 					ghosts.push(new _ghost(x,y));
+					ghosts[ghosts.length - 1].changeDir();
 				}
 
 			}

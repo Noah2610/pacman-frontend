@@ -1,5 +1,4 @@
 
-let tmp = 0;
 
 const scoreEl = document.querySelector("#playerScore");
 
@@ -101,9 +100,10 @@ function draw() {
 
 	Map.show();
 
-	Player.update();
+	for (let count = 0; count < ghosts.length; count++) {
+		ghosts[count].update();
+	}
 
-	//for (let count = 0; count < ghosts.length; count++) {
-		//ghosts[count].update();
-	//}
+	// call player update function last due to rotation
+	Player.update();
 }
