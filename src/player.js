@@ -86,8 +86,8 @@ function _player(x=32+settings.blockSize/2, y=32+settings.blockSize/2) {
 		}
 
 		if ( playerLastKey[0] &&
-		(this.x - settings.blockSize / 2) % 32 == 0 &&
-		(this.y - settings.blockSize / 2) % 32 == 0 &&
+		(this.x - settings.blockSize / 2) % settings.blockSize == 0 &&
+		(this.y - settings.blockSize / 2) % settings.blockSize == 0 &&
 		!this.collision(walls, playerLastKey[1]) ) {
 			switch (playerLastKey[0]) {
 				case "up":

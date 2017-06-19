@@ -13,6 +13,7 @@ let sounds = {};
 
 let mapLayout = defMap;
 let walls = [];
+let wallsGhost = [];
 let points = [];
 let ghosts = [];
 
