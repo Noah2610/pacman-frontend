@@ -1,5 +1,7 @@
 
 
+const scoreEl = document.querySelector("#playerScore");
+
 const sprPath = "./resource/sprites/";
 const soundPath = "./resource/sounds/";
 let Player;
@@ -31,28 +33,29 @@ function preload() {
 
 function setup() {
 	// get all walls and emptyTiles into one array
-	for (let row = 0; row < mapLayout.length; row++) {
-		for (let col = 0; col < mapLayout[0].length; col++) {
-			// impassable objects
-			if (objects[mapLayout[row][col]][0] == "wall" || objects[mapLayout[row][col]][0] == "tileImpass") {
-				let x = col * settings.blockSize;
-				let y = row * settings.blockSize;
-				walls.push({
-					x1: x, y1: y,
-					x2: x + settings.blockSize, y2: y + settings.blockSize
-				});
-			} else
-			// points
-			if (objects[mapLayout[row][col]][0] == "point") {
-				let x = col * settings.pointSize;
-				let y = row * settings.pointSize;
-				points.push({
-					x1: x, y1: y,
-					x2: x + settings.pointSize, y2: y + settings.pointSize
-				});
-			}
-		}
-	}
+	Map.mkArrays();
+	//for (let row = 0; row < mapLayout.length; row++) {
+		//for (let col = 0; col < mapLayout[0].length; col++) {
+			//// impassable objects
+			//if (objects[mapLayout[row][col]][0] == "wall" || objects[mapLayout[row][col]][0] == "tileImpass") {
+				//let x = col * settings.blockSize;
+				//let y = row * settings.blockSize;
+				//walls.push({
+					//x1: x, y1: y,
+					//x2: x + settings.blockSize, y2: y + settings.blockSize
+				//});
+			//} else
+			//// points
+			//if (objects[mapLayout[row][col]][0] == "point") {
+				//let x = col * settings.pointSize;
+				//let y = row * settings.pointSize;
+				//points.push({
+					//x1: x, y1: y,
+					//x2: x + settings.pointSize, y2: y + settings.pointSize
+				//});
+			//}
+		//}
+	//}
 
 	Player = new _player();
 	playerImgInterval = setInterval(function () {
@@ -88,7 +91,7 @@ function keyPressed() {
 function draw() {
 	background(settings.bgColor);
 
-	Map.show(mapLayout);
+	Map.show();
 
 	Player.update();
 }

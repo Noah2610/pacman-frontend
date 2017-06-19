@@ -6,39 +6,46 @@ function _player(x=32+settings.blockSize/2, y=32+settings.blockSize/2) {
 	this.dir = [0,0];
 	this.curImg = 0;
 	this.imgDir = 1;
+	this.score = 0;
 
 
-	this.collision = function (arr, dir=this.dir) {
-		let half = Math.round(settings.blockSize / 2);
+	this.collision = function (arr, dir=this.dir, dist=Math.round(settings.blockSize/2)) {
 		for (let count = 0; count < arr.length; count++) {
 			let block = arr[count];
 			switch (JSON.stringify(dir)) {
 				case "[0,-1]":  // up
 					if (
 					this.x >= block.x1 && this.x <= block.x2 &&
-					this.y - half >= block.y1 && this.y - half <= block.y2 ) {
-						return block;
+					this.y - dist >= block.y1 && this.y - dist <= block.y2 ) {
+						return block.id;
 					}
 					break;
 				case "[0,1]":  // down
 					if (
 					this.x >= block.x1 && this.x <= block.x2 &&
-					this.y + half >= block.y1 && this.y + half <= block.y2 ) {
-						return block;
+					this.y + dist >= block.y1 && this.y + dist <= block.y2 ) {
+						return block.id;
 					}
 					break;
 				case "[-1,0]":  // left
 					if (
-					this.x - half >= block.x1 && this.x - half <= block.x2 &&
+					this.x - dist >= block.x1 && this.x - dist <= block.x2 &&
 					this.y >= block.y1 && this.y <= block.y2 ) {
-						return block;
+						return block.id;
 					}
 					break;
 				case "[1,0]":  // right
 					if (
-					this.x + half >= block.x1 && this.x + half <= block.x2 &&
+					this.x + dist >= block.x1 && this.x + dist <= block.x2 &&
 					this.y >= block.y1 && this.y <= block.y2 ) {
-						return block;
+						return block.id;
+					}
+					break;
+				case "[0,0]":  // no movement
+					if (
+					this.x >= block.x1 && this.x <= block.x2 &&
+					this.y >= block.y1 && this.y <= block.y2 ) {
+						return block.id;
 					}
 					break;
 			}
@@ -54,10 +61,19 @@ function _player(x=32+settings.blockSize/2, y=32+settings.blockSize/2) {
 			this.move();
 		} else this.dir = [0,0];
 
-		//let pntCollide = this.collision(points);
-		//if (pntCollide) {
-			//for 
-		//}
+		let pntCollide = this.collision(points, [0,0], 0);
+		if (pntCollide) {
+			for (let row = 0; row < mapLayout.length; row++) {
+				for (let col = 0; col < mapLayout[0].length; col++) {
+					if (pntCollide[1] == row && pntCollide[0] == col) {
+						this.score++;
+						scoreEl.innerHTML = "Score: " + this.score;
+						mapLayout[row][col] = "-";
+						Map.mkArrays();
+					}
+				}
+			}
+		}
 
 		this.show();
 	};
