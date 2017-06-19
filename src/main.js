@@ -75,6 +75,22 @@ function gameOver() {
 	},50);
 }
 
+function win() {
+	clearInterval(playerImgInterval);
+	sounds.pacman.stop();
+	ghosts = [];
+	gameRunning = false;
+
+	setTimeout(function () {
+		textAlign(CENTER,CENTER);
+		textSize(64);
+		strokeWeight(6);
+		stroke(0);
+		fill(0,255,0);
+		text("You Won!\nFinal Score: " + Player.score, settings.canvasWidth / 2, settings.canvasHeight / 2);
+	},50);
+}
+
 
 function keyPressed() {
 	if (keyCode === UP_ARROW) {
@@ -105,5 +121,8 @@ function draw() {
 
 		// call player update function last due to rotation
 		Player.update();
+
+		// win condition - eat all pellets
+		if (points.length == 0) win();
 	}
 }

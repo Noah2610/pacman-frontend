@@ -10,8 +10,10 @@ let settings = {
 	playerSpdMult: 2,
 
 	pointSize: 8,
+	pointScoreInrc: 10,
 
 	ghostSize: 24,
-	ghostTrackChance: 0.75
+	ghostTrackChance: 0.75,
+	ghostScoreIncr: 100
 };
 settings.playerSize = settings.blockSize - 2;
