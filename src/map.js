@@ -6,7 +6,7 @@ const objects = {
 	"_": [ "tileImpass",
 		function (x,y) { fill(64); rectMode(CENTER); rect(x,y,settings.blockSize,settings.blockSize); }
 	],
-	"*": [ "point",
+	".": [ "point",
 		function (x,y) { fill(255,255,0); ellipseMode(CENTER); ellipse(x,y,settings.pointSize); }
 	],
 	"#": [ "wall",

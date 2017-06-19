@@ -10,8 +10,10 @@ let playerLastKey = [false,[0,0]];
 
 let spr = {};
 let sounds = {};
+let gameRunning = false;
 
 let mapLayout = defMap;
+//let mapLayout = map;
 let walls = [];
 let wallsGhost = [];
 let points = [];
@@ -29,11 +31,12 @@ function preload() {
 		loadImage(sprPath + "ghost-01.png", function(){}, function () { console.error("ghost-01 image not loaded"); }),
 		loadImage(sprPath + "ghost-02.png", function(){}, function () { console.error("ghost-02 image not loaded"); }),
 		loadImage(sprPath + "ghost-03.png", function(){}, function () { console.error("ghost-03 image not loaded"); }),
-		loadImage(sprPath + "ghost-04.png", function(){}, function () { console.error("ghost-04 image not loaded"); })
+		loadImage(sprPath + "ghost-04.png", function(){}, function () { console.error("ghost-04 image not loaded"); }),
+		loadImage(sprPath + "ghost-n.png", function(){}, function () { console.error("ghost-n image not loaded"); })
 	];
 	// load sounds
 	sounds.pacman = loadSound(soundPath + "pacman-waka-edited.mp3",
-		function (audio) { audio.loop(0, 1); },
+		function (audio) { audio.setVolume(0.25); audio.loop(0, 1); },
 		function () { console.error("pacman-waka sound not loaded"); }
 	);
 	//sounds.pacman.playMode("sustain");
@@ -42,28 +45,6 @@ function preload() {
 function setup() {
 	// get all walls and emptyTiles into one array
 	Map.mkArrays();
-	//for (let row = 0; row < mapLayout.length; row++) {
-		//for (let col = 0; col < mapLayout[0].length; col++) {
-			//// impassable objects
-			//if (objects[mapLayout[row][col]][0] == "wall" || objects[mapLayout[row][col]][0] == "tileImpass") {
-				//let x = col * settings.blockSize;
-				//let y = row * settings.blockSize;
-				//walls.push({
-					//x1: x, y1: y,
-					//x2: x + settings.blockSize, y2: y + settings.blockSize
-				//});
-			//} else
-			//// points
-			//if (objects[mapLayout[row][col]][0] == "point") {
-				//let x = col * settings.pointSize;
-				//let y = row * settings.pointSize;
-				//points.push({
-					//x1: x, y1: y,
-					//x2: x + settings.pointSize, y2: y + settings.pointSize
-				//});
-			//}
-		//}
-	//}
 
 	Player = new _player();
 	playerImgInterval = setInterval(function () {
@@ -75,8 +56,24 @@ function setup() {
 	// initialize canvas
 	createCanvas(settings.canvasWidth, settings.canvasHeight);
 	background(settings.bgColor);
+	gameRunning = true;
 }
 
+
+function gameOver() {
+	clearInterval(playerImgInterval);
+	sounds.pacman.stop();
+	gameRunning = false;
+
+	setTimeout(function () {
+		textAlign(CENTER,CENTER);
+		textSize(64);
+		strokeWeight(6);
+		stroke(0);
+		fill(255,0,0);
+		text("Game Over\nFinal Score: " + Player.score, settings.canvasWidth / 2, settings.canvasHeight / 2);
+	},50);
+}
 
 
 function keyPressed() {
@@ -97,14 +94,16 @@ function keyPressed() {
 
 
 function draw() {
-	background(settings.bgColor);
+	if (gameRunning) {
+		background(settings.bgColor);
 
-	Map.show();
+		Map.show();
 
-	for (let count = 0; count < ghosts.length; count++) {
-		ghosts[count].update();
+		for (let count = 0; count < ghosts.length; count++) {
+			ghosts[count].update();
+		}
+
+		// call player update function last due to rotation
+		Player.update();
 	}
-
-	// call player update function last due to rotation
-	Player.update();
 }

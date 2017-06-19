@@ -5,7 +5,12 @@ function _ghost(x,y) {
 	this.y = y;
 	this.dir = [0,0];
 	this.spdMult = 2;
-	this.img = spr.ghosts[ghosts.length];
+
+	if (ghosts.length < 4) {
+		this.img = spr.ghosts[ghosts.length];
+	} else {
+		this.img = spr.ghosts[4];
+	}
 
 
 
@@ -78,6 +83,10 @@ function _ghost(x,y) {
 		//else this.changeDir();
 		this.move();
 		this.show();
+
+		// GAME OVER
+		if (this.collision([Player], this.dir, 0))
+			gameOver();
 	};
 
 

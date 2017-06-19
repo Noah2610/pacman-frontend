@@ -9,6 +9,12 @@ function _player(x=32+settings.blockSize/2, y=32+settings.blockSize/2) {
 	this.score = 0;
 	this.rotation = 0;
 
+	// for collision checking with ghosts
+	this.x1 = this.x - settings.playerSize / 2;
+	this.y1 = this.y - settings.playerSize / 2;
+	this.x2 = this.x + settings.playerSize / 2;
+	this.y2 = this.y + settings.playerSize / 2;
+
 
 	this.collision = function (arr, dir=this.dir, dist=Math.round(settings.blockSize/2)) {
 		for (let count = 0; count < arr.length; count++) {
@@ -62,6 +68,7 @@ function _player(x=32+settings.blockSize/2, y=32+settings.blockSize/2) {
 			this.move();
 		} else this.dir = [0,0];
 
+		// collect point/pellet
 		let pntCollide = this.collision(points, [0,0], 0);
 		if (pntCollide) {
 			for (let row = 0; row < mapLayout.length; row++) {
@@ -77,6 +84,7 @@ function _player(x=32+settings.blockSize/2, y=32+settings.blockSize/2) {
 		}
 
 		this.show();
+
 	};
 
 	this.changeDir = function () {
@@ -112,6 +120,11 @@ function _player(x=32+settings.blockSize/2, y=32+settings.blockSize/2) {
 	this.move = function () {
 		this.x += this.dir[0] * settings.playerSpdMult;
 		this.y += this.dir[1] * settings.playerSpdMult;
+		// for collision checking
+		this.x1 = this.x - settings.playerSize / 2;
+		this.y1 = this.y - settings.playerSize / 2;
+		this.x2 = this.x + settings.playerSize / 2;
+		this.y2 = this.y + settings.playerSize / 2;
 		// check offscreen (x)
 		if (this.x < 0) this.x = settings.canvasWidth;
 		else if (this.x > settings.canvasWidth) this.x = 0;
