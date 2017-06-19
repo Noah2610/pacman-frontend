@@ -1,8 +1,9 @@
 
 rotate ghosts
-make ghosts semi-pathfind
+# make ghosts semi-pathfind
 add food (power-up)
 	-> ability to kill ghosts after eating food
 	-> ghost respawn when killed
+improve scoring system
 
 (lives?)

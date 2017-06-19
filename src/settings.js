@@ -11,6 +11,7 @@ let settings = {
 
 	pointSize: 8,
 
-	ghostSize: 24
+	ghostSize: 24,
+	ghostTrackChance: 0.75
 };
 settings.playerSize = settings.blockSize - 2;

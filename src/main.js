@@ -43,10 +43,10 @@ function preload() {
 }
 
 function setup() {
+	Player = new _player();  // create player
 	// get all walls and emptyTiles into one array
 	Map.mkArrays();
 
-	Player = new _player();
 	playerImgInterval = setInterval(function () {
 		if (Player.curImg <= 0) Player.imgDir = 1;
 		if (Player.curImg >= 2) Player.imgDir = -1;
