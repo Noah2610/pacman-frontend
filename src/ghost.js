@@ -56,7 +56,7 @@ function _ghost(x,y) {
 
 	this.changeDir = function () {
 		let newDir = this.dir;
-		while (JSON.stringify(newDir) == JSON.stringify(this.dir) || JSON.stringify(newDir.map((a) => { return a * -1; })) == JSON.stringify(this.dir)) {
+		while (JSON.stringify(newDir) == JSON.stringify(this.dir) && JSON.stringify([newDir[0] * -1, newDir[1] * -1]) == JSON.stringify(this.dir)) {
 			let axis = Math.round(Math.random()) ? "x" : "y";
 			let direction = Math.round(Math.random());
 			if (direction == 0) direction = -1;
@@ -106,6 +106,9 @@ function _ghost(x,y) {
 			this.x += this.dir[0] * this.spdMult;
 			this.y += this.dir[1] * this.spdMult;
 		} else this.changeDir();
+		// check offscreen (x)
+		if (this.x < 0) this.x = settings.canvasWidth;
+		else if (this.x > settings.canvasWidth) this.x = 0;
 	};
 
 	

@@ -112,6 +112,9 @@ function _player(x=32+settings.blockSize/2, y=32+settings.blockSize/2) {
 	this.move = function () {
 		this.x += this.dir[0] * settings.playerSpdMult;
 		this.y += this.dir[1] * settings.playerSpdMult;
+		// check offscreen (x)
+		if (this.x < 0) this.x = settings.canvasWidth;
+		else if (this.x > settings.canvasWidth) this.x = 0;
 	};
 
 	this.show = function () {
