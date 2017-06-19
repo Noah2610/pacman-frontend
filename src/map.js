@@ -13,7 +13,7 @@ const objects = {
 		function (x,y) { fill(0,0,255); rectMode(CENTER); rect(x,y,settings.blockSize,settings.blockSize); }
 	],
 	"G": [ "ghost",
-		function (x,y) { fill(255); rectMode(CENTER); rect(x,y,24,24); }
+		function (x,y) { fill(255); rectMode(CENTER); rect(x,y, settings.ghostSize,settings.ghostSize); }
 	]
 };
 
@@ -56,7 +56,15 @@ const Map = {
 						x2: x + settings.blockSize, y2: y + settings.blockSize,
 						id: [col,row]
 					});
+				} else
+				// ghosts
+				if (objects[mapLayout[row][col]][0] == "ghost") {
+					mapLayout[row][col] = "-";
+					let x = col * settings.blockSize + settings.ghostSize;
+					let y = row * settings.blockSize + settings.ghostSize;
+					ghosts.push(new _ghost(x,y));
 				}
+
 			}
 		}
 

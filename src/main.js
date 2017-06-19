@@ -1,4 +1,5 @@
 
+let tmp = 0;
 
 const scoreEl = document.querySelector("#playerScore");
 
@@ -14,6 +15,7 @@ let sounds = {};
 let mapLayout = defMap;
 let walls = [];
 let points = [];
+let ghosts = [];
 
 
 function preload() {
@@ -22,6 +24,12 @@ function preload() {
 		loadImage(sprPath + "pacman-0.png", function(){}, function () { console.error("pacman-0 image not loaded"); }),
 		loadImage(sprPath + "pacman-1.png", function(){}, function () { console.error("pacman-1 image not loaded"); }),
 		loadImage(sprPath + "pacman-2.png", function(){}, function () { console.error("pacman-2 image not loaded"); })
+	];
+	spr.ghosts = [
+		loadImage(sprPath + "ghost-01.png", function(){}, function () { console.error("ghost-01 image not loaded"); }),
+		loadImage(sprPath + "ghost-02.png", function(){}, function () { console.error("ghost-02 image not loaded"); }),
+		loadImage(sprPath + "ghost-03.png", function(){}, function () { console.error("ghost-03 image not loaded"); }),
+		loadImage(sprPath + "ghost-04.png", function(){}, function () { console.error("ghost-04 image not loaded"); })
 	];
 	// load sounds
 	sounds.pacman = loadSound(soundPath + "pacman-waka-edited.mp3",
@@ -94,4 +102,8 @@ function draw() {
 	Map.show();
 
 	Player.update();
+
+	//for (let count = 0; count < ghosts.length; count++) {
+		//ghosts[count].update();
+	//}
 }

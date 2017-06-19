@@ -7,6 +7,7 @@ function _player(x=32+settings.blockSize/2, y=32+settings.blockSize/2) {
 	this.curImg = 0;
 	this.imgDir = 1;
 	this.score = 0;
+	this.rotation = 0;
 
 
 	this.collision = function (arr, dir=this.dir, dist=Math.round(settings.blockSize/2)) {
@@ -114,9 +115,33 @@ function _player(x=32+settings.blockSize/2, y=32+settings.blockSize/2) {
 	};
 
 	this.show = function () {
+
 		imageMode(CENTER);
+
+		// move origin point so rotation looks correct
+		translate(this.x, this.y);  // <- these are the position coords for player
+		angleMode(DEGREES)
+
+		switch (JSON.stringify(this.dir)) {
+			case "[0,-1]":
+				this.rotation = 270;
+				break;
+			case "[0,1]":
+				this.rotation = 90;
+				break;
+			case "[-1,0]":
+				this.rotation = 180;
+				break;
+			case "[1,0]":
+				this.rotation = 0;
+				break;
+		}
+		rotate(this.rotation);
+
 		//image(spr.pacman[this.curImg], Math.round(this.x + settings.playerSize / 2), Math.round(this.y + settings.playerSize / 2), settings.playerSize,settings.playerSize);
-		image(spr.pacman[this.curImg], this.x,this.y, settings.playerSize,settings.playerSize);
+		//image(spr.pacman[this.curImg], this.x, this.y, settings.playerSize,settings.playerSize);
+		image(spr.pacman[this.curImg], 0,0, settings.playerSize,settings.playerSize);
+		//image(spr.pacman[this.curImg], this.x - settings.playerSize / 2, this.y - settings.playerSize / 2, settings.playerSize,settings.playerSize);
 	};
 
 }
