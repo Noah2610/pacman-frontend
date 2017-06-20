@@ -65,13 +65,29 @@ function gameOver() {
 	sounds.pacman.stop();
 	gameRunning = false;
 
+
 	setTimeout(function () {
 		textAlign(CENTER,CENTER);
 		textSize(64);
 		strokeWeight(6);
 		stroke(0);
 		fill(255,0,0);
+
+		// local storage, highscore
+		let highscore = false;
+		let hiScore = localStorage.getItem("highscore");
+		if (!hiScore || hiScore < Player.score) {
+			localStorage.setItem("highscore", Player.score);
+			highscore = true;
+		}
+
 		text("Game Over\nFinal Score: " + Player.score, settings.canvasWidth / 2, settings.canvasHeight / 2);
+
+		if (highscore) {
+			fill(0,255,0);
+			text("\n\n\nHighscore!", settings.canvasWidth / 2, settings.canvasHeight / 2);
+		}
+
 	},50);
 }
 
@@ -87,7 +103,22 @@ function win() {
 		strokeWeight(6);
 		stroke(0);
 		fill(0,255,0);
+
+		// local storage, highscore
+		let highscore = false;
+		let hiScore = localStorage.getItem("highscore");
+		if (!hiScore || hiScore < Player.score) {
+			localStorage.setItem("highscore", Player.score);
+			highscore = true;
+		}
+
 		text("You Won!\nFinal Score: " + Player.score, settings.canvasWidth / 2, settings.canvasHeight / 2);
+
+		if (highscore) {
+			fill(0,255,0);
+			text("\n\n\nHighscore!", settings.canvasWidth / 2, settings.canvasHeight / 2);
+		}
+
 	},50);
 }
 
