@@ -1,5 +1,5 @@
 
-
+const tableEl = document.querySelector("table#table");
 const scoreEl = document.querySelector("#score");
 const highscoreEl = document.querySelector("#highscore");
 
@@ -50,6 +50,8 @@ function setup() {
 	if (hiScore) {
 		highscoreEl.innerHTML = "<b>" + hiScore + "</b>";
 	}
+	// display total games won if it exists (local storage)
+	if (localStorage.getItem("gamesWon")) mkGamesWonEl();
 
 	Player = new _player();  // create player
 	// get all walls and emptyTiles into one array
@@ -68,35 +70,48 @@ function setup() {
 }
 
 
+function mkGamesWonEl() {
+	let gamesWon = localStorage.getItem("gamesWon");
+	let trEl = document.createElement("tr");
+	let tdTitleEl = document.createElement("td");
+	let tdNumEl = document.createElement("td");
+	tdTitleEl.innerHTML = "Total Games Won: ";
+	tdNumEl.innerHTML = "<b>" + gamesWon + "</b>";
+	tdNumEl.id = "gamesWon";
+	table.appendChild(trEl);
+	trEl.appendChild(tdTitleEl);
+	trEl.appendChild(tdNumEl);
+}
+
+
 function gameOver() {
 	clearInterval(playerImgInterval);
 	sounds.pacman.stop();
 	gameRunning = false;
 
+	textAlign(CENTER,CENTER);
+	textSize(64);
+	strokeWeight(6);
+	stroke(0);
+	fill(255,0,0);
 
-	setTimeout(function () {
-		textAlign(CENTER,CENTER);
-		textSize(64);
-		strokeWeight(6);
-		stroke(0);
-		fill(255,0,0);
+	// local storage, highscore
+	let highscore = false;
+	let hiScore = localStorage.getItem("highscore");
+	if (!hiScore || hiScore < Player.score) {
+		localStorage.setItem("highscore", Player.score);
+		highscore = true;
+	}
 
-		// local storage, highscore
-		let highscore = false;
-		let hiScore = localStorage.getItem("highscore");
-		if (!hiScore || hiScore < Player.score) {
-			localStorage.setItem("highscore", Player.score);
-			highscore = true;
-		}
+	text("Game Over\nFinal Score: " + Player.score, settings.canvasWidth / 2, settings.canvasHeight / 2);
 
-		text("Game Over\nFinal Score: " + Player.score, settings.canvasWidth / 2, settings.canvasHeight / 2);
+	if (highscore) {
+		fill(0,255,0);
+		text("\n\n\nNew Highscore!", settings.canvasWidth / 2, settings.canvasHeight / 2);
+		// update highscore element
+		highscoreEl.innerHTML = "<b>" + Player.score +"</b>";
+	}
 
-		if (highscore) {
-			fill(0,255,0);
-			text("\n\n\nHighscore!", settings.canvasWidth / 2, settings.canvasHeight / 2);
-		}
-
-	},50);
 }
 
 function win() {
@@ -105,29 +120,39 @@ function win() {
 	ghosts = [];
 	gameRunning = false;
 
-	setTimeout(function () {
-		textAlign(CENTER,CENTER);
-		textSize(64);
-		strokeWeight(6);
-		stroke(0);
+	textAlign(CENTER,CENTER);
+	textSize(64);
+	strokeWeight(6);
+	stroke(0);
+	fill(0,255,0);
+
+	// local storage, highscore
+	let highscore = false;
+	let hiScore = localStorage.getItem("highscore");
+	if (!hiScore || hiScore < Player.score) {
+		localStorage.setItem("highscore", Player.score);
+		highscore = true;
+	}
+	// local storage, total games won
+	let gamesWon = parseInt(localStorage.getItem("gamesWon"));
+	if (!gamesWon) {
+		localStorage.setItem("gamesWon", 1);
+		mkGamesWonEl();
+	} else {
+		gamesWon++;
+		localStorage.setItem("gamesWon", gamesWon);
+		// update total games won element
+		document.querySelector("#gamesWon").innerHTML = "<b>" + gamesWon + "</b>";
+	}
+
+	text("You Win!\nFinal Score: " + Player.score, settings.canvasWidth / 2, settings.canvasHeight / 2);
+
+	if (highscore) {
 		fill(0,255,0);
-
-		// local storage, highscore
-		let highscore = false;
-		let hiScore = localStorage.getItem("highscore");
-		if (!hiScore || hiScore < Player.score) {
-			localStorage.setItem("highscore", Player.score);
-			highscore = true;
-		}
-
-		text("You Won!\nFinal Score: " + Player.score, settings.canvasWidth / 2, settings.canvasHeight / 2);
-
-		if (highscore) {
-			fill(0,255,0);
-			text("\n\n\nHighscore!", settings.canvasWidth / 2, settings.canvasHeight / 2);
-		}
-
-	},50);
+		text("\n\n\nNew Highscore!", settings.canvasWidth / 2, settings.canvasHeight / 2);
+		// update highscore element
+		highscoreEl.innerHTML = "<b>" + Player.score +"</b>";
+	}
 }
 
 
@@ -160,8 +185,5 @@ function draw() {
 
 		// call player update function last due to rotation
 		Player.update();
-
-		// win condition - eat all pellets
-		if (points.length == 0) win();
 	}
 }

@@ -78,6 +78,8 @@ function _player(x=32+settings.blockSize/2, y=32+settings.blockSize/2) {
 						scoreEl.innerHTML = "<b>" + this.score + "</b>";
 						mapLayout[row][col] = "-";
 						Map.mkArrays();
+						// win condition
+						if (points.length == 0) win();
 					}
 				}
 			}
