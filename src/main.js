@@ -61,6 +61,7 @@ function preload() {
 			loadImage(sprPath + "ghost-right-n.png", function(){}, function () { console.error("ghost-right-n image not loaded"); })
 		],
 	];
+	spr.ghostWobble = loadImage(sprPath + "ghostWobble.png", function(){}, function () { console.error("ghostWobble image not loaded"); });
 	// load sounds
 	sounds.pacman = loadSound(soundPath + "pacman-waka-edited.mp3",
 		function (audio) { audio.setVolume(0.25); audio.loop(0, 1); },
