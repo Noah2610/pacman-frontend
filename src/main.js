@@ -48,7 +48,7 @@ function setup() {
 	// display highscore if it exists (local storage)
 	let hiScore = localStorage.getItem("highscore");
 	if (hiScore) {
-		highscoreEl.innerHTML = "" + hiScore;
+		highscoreEl.innerHTML = "<b>" + hiScore + "</b>";
 	}
 
 	Player = new _player();  // create player

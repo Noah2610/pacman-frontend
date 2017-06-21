@@ -75,7 +75,7 @@ function _player(x=32+settings.blockSize/2, y=32+settings.blockSize/2) {
 				for (let col = 0; col < mapLayout[0].length; col++) {
 					if (pntCollide[1] == row && pntCollide[0] == col) {
 						this.score += settings.pointScoreInrc;
-						scoreEl.innerHTML = "Score: " + this.score;
+						scoreEl.innerHTML = "<b>" + this.score + "</b>";
 						mapLayout[row][col] = "-";
 						Map.mkArrays();
 					}

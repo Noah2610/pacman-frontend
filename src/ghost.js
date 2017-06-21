@@ -107,7 +107,6 @@ function _ghost(x,y) {
 					pathfind = true;
 					newDir = pfDirs[Math.floor(Math.random() * pfDirs.length)];
 				} else {
-					console.log("no good path");
 					if ((this.dir[0] == goodDir[0] || this.dir[1] == goodDir[1]) && !this.collision(wallsGhost))
 						pathfind = true;
 				}
