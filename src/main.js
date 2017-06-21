@@ -1,6 +1,7 @@
 
 
-const scoreEl = document.querySelector("#playerScore");
+const scoreEl = document.querySelector("#score");
+const highscoreEl = document.querySelector("#highscore");
 
 const sprPath = "./resource/sprites/";
 const soundPath = "./resource/sounds/";
@@ -42,7 +43,14 @@ function preload() {
 	//sounds.pacman.playMode("sustain");
 }
 
+
 function setup() {
+	// display highscore if it exists (local storage)
+	let hiScore = localStorage.getItem("highscore");
+	if (hiScore) {
+		highscoreEl.innerHTML = "Highscore: " + hiScore;
+	}
+
 	Player = new _player();  // create player
 	// get all walls and emptyTiles into one array
 	Map.mkArrays();
