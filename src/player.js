@@ -133,9 +133,8 @@ function _player(x=32+settings.blockSize/2, y=32+settings.blockSize/2) {
 	};
 
 	this.show = function () {
-
+		push();
 		imageMode(CENTER);
-
 		// move origin point so rotation looks correct
 		translate(this.x, this.y);  // <- these are the position coords for player
 		angleMode(DEGREES)
@@ -155,11 +154,8 @@ function _player(x=32+settings.blockSize/2, y=32+settings.blockSize/2) {
 				break;
 		}
 		rotate(this.rotation);
-
-		//image(spr.pacman[this.curImg], Math.round(this.x + settings.playerSize / 2), Math.round(this.y + settings.playerSize / 2), settings.playerSize,settings.playerSize);
-		//image(spr.pacman[this.curImg], this.x, this.y, settings.playerSize,settings.playerSize);
 		image(spr.pacman[this.curImg], 0,0, settings.playerSize,settings.playerSize);
-		//image(spr.pacman[this.curImg], this.x - settings.playerSize / 2, this.y - settings.playerSize / 2, settings.playerSize,settings.playerSize);
+		pop();
 	};
 
 }

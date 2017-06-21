@@ -1,6 +1,6 @@
 
-rotate ghosts
-	create ghosts look up / down sprites
+# (rotate ghosts)
+	# create ghosts look up / down sprites
 # make ghosts semi-pathfind
 add food (power-up)
 	-> ability to kill ghosts after eating food

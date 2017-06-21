@@ -13,10 +13,11 @@ function _ghost(x,y) {
 	this.passedDoors = false;
 
 	if (ghosts.length < 4) {
-		this.img = spr.ghosts[ghosts.length];
+		this.imgs = spr.ghosts[ghosts.length];
 	} else {
-		this.img = spr.ghosts[4];
+		this.imgs = spr.ghosts[4];
 	}
+	this.img = this.imgs[0];
 
 
 
@@ -125,6 +126,22 @@ function _ghost(x,y) {
 		else newDir = this.dir;
 
 		this.dir = newDir;
+
+		// change sprite
+		switch (JSON.stringify(this.dir)) {
+			case "[0,-1]":
+				this.img = this.imgs[0];
+				break;
+			case "[0,1]":
+				this.img = this.imgs[1];
+				break;
+			case "[-1,0]":
+				this.img = this.imgs[2];
+				break;
+			case "[1,0]":
+				this.img = this.imgs[3];
+				break;
+		}
 	};
 
 
@@ -177,7 +194,9 @@ function _ghost(x,y) {
 	
 	this.show = function () {
 		imageMode(CENTER);
-		image(this.img, this.x,this.y, settings.ghostSize,settings.ghostSize);
+		// move origin point so rotation looks correct
+		//image(this.img, this.x,this.y, settings.ghostSize,settings.ghostSize);
+		image(this.img, this.x,this.y , settings.ghostSize,settings.ghostSize);
 	};
 
 

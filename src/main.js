@@ -30,11 +30,36 @@ function preload() {
 		loadImage(sprPath + "pacman-2.png", function(){}, function () { console.error("pacman-2 image not loaded"); })
 	];
 	spr.ghosts = [
-		loadImage(sprPath + "ghost-01.png", function(){}, function () { console.error("ghost-01 image not loaded"); }),
-		loadImage(sprPath + "ghost-02.png", function(){}, function () { console.error("ghost-02 image not loaded"); }),
-		loadImage(sprPath + "ghost-03.png", function(){}, function () { console.error("ghost-03 image not loaded"); }),
-		loadImage(sprPath + "ghost-04.png", function(){}, function () { console.error("ghost-04 image not loaded"); }),
-		loadImage(sprPath + "ghost-n.png", function(){}, function () { console.error("ghost-n image not loaded"); })
+		[
+			loadImage(sprPath + "ghost-up-01.png", function(){}, function () { console.error("ghost-up-01 image not loaded"); }),
+			loadImage(sprPath + "ghost-down-01.png", function(){}, function () { console.error("ghost-down-01 image not loaded"); }),
+			loadImage(sprPath + "ghost-left-01.png", function(){}, function () { console.error("ghost-left-01 image not loaded"); }),
+			loadImage(sprPath + "ghost-right-01.png", function(){}, function () { console.error("ghost-right-01 image not loaded"); })
+		],
+		[
+			loadImage(sprPath + "ghost-up-02.png", function(){}, function () { console.error("ghost-up-02 image not loaded"); }),
+			loadImage(sprPath + "ghost-down-02.png", function(){}, function () { console.error("ghost-down-02 image not loaded"); }),
+			loadImage(sprPath + "ghost-left-02.png", function(){}, function () { console.error("ghost-left-02 image not loaded"); }),
+			loadImage(sprPath + "ghost-right-02.png", function(){}, function () { console.error("ghost-right-02 image not loaded"); })
+		],
+		[
+			loadImage(sprPath + "ghost-up-03.png", function(){}, function () { console.error("ghost-up-03 image not loaded"); }),
+			loadImage(sprPath + "ghost-down-03.png", function(){}, function () { console.error("ghost-down-03 image not loaded"); }),
+			loadImage(sprPath + "ghost-left-03.png", function(){}, function () { console.error("ghost-left-03 image not loaded"); }),
+			loadImage(sprPath + "ghost-right-03.png", function(){}, function () { console.error("ghost-right-03 image not loaded"); })
+		],
+		[
+			loadImage(sprPath + "ghost-up-04.png", function(){}, function () { console.error("ghost-up-04 image not loaded"); }),
+			loadImage(sprPath + "ghost-down-04.png", function(){}, function () { console.error("ghost-down-04 image not loaded"); }),
+			loadImage(sprPath + "ghost-left-04.png", function(){}, function () { console.error("ghost-left-04 image not loaded"); }),
+			loadImage(sprPath + "ghost-right-04.png", function(){}, function () { console.error("ghost-right-04 image not loaded"); })
+		],
+		[
+			loadImage(sprPath + "ghost-up-n.png", function(){}, function () { console.error("ghost-up-n image not loaded"); }),
+			loadImage(sprPath + "ghost-down-n.png", function(){}, function () { console.error("ghost-down-n image not loaded"); }),
+			loadImage(sprPath + "ghost-left-n.png", function(){}, function () { console.error("ghost-left-n image not loaded"); }),
+			loadImage(sprPath + "ghost-right-n.png", function(){}, function () { console.error("ghost-right-n image not loaded"); })
+		],
 	];
 	// load sounds
 	sounds.pacman = loadSound(soundPath + "pacman-waka-edited.mp3",
