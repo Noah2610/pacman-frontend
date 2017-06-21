@@ -10,8 +10,7 @@ make player be part of map (spawn where he's put)
 block ghosts from going back into their spawn
 # static highscore display
 increase difficulty after beating the game
-	(also, make it easier)
-local storage: store total games won
+# local storage: store total games won
 
 
 (
