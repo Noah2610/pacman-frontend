@@ -72,6 +72,7 @@ const Map = {
 
 		// create walls for ghosts
 		wallsGhost = walls.filter((wall) => { return wall.name == "wall"; });
+		doors = walls.filter((wall) => { return wall.name == "tileImpass"; });
 
 		// add ghosts
 		for (let count = 0; count < ghostsTmp.length; count++) {

@@ -5,6 +5,12 @@ function _ghost(x,y) {
 	this.y = y;
 	this.dir = [0,0];
 	this.spdMult = 2;
+	//this.walls = wallsGhost;
+	this.walls = [];
+	wallsGhost.forEach((wall) => {
+		this.walls.push(wall);
+	});
+	this.passedDoors = false;
 
 	if (ghosts.length < 4) {
 		this.img = spr.ghosts[ghosts.length];
@@ -67,22 +73,22 @@ function _ghost(x,y) {
 			switch (count) {
 				case 0:  // up
 					if ("[0,-1]" != JSON.stringify(this.dir) && "[" + 0 * -1 + "," + -1 * -1 + "]" != JSON.stringify(this.dir) &&
-					!this.collision(wallsGhost, [0,-1]))
+					!this.collision(this.walls, [0,-1]))
 						dirs.push([0,-1]);
 					break;
 				case 1:  // down
 					if ("[0,1]" != JSON.stringify(this.dir) && "[" + 0 * -1 + "," + 1 * -1 + "]" != JSON.stringify(this.dir) &&
-					!this.collision(wallsGhost, [0,1]))
+					!this.collision(this.walls, [0,1]))
 						dirs.push([0,1]);
 					break;
 				case 2:  // left
 					if ("[-1,0]" != JSON.stringify(this.dir) && "[" + -1 * -1 + "," + 0 * -1 + "]" != JSON.stringify(this.dir) &&
-					!this.collision(wallsGhost, [-1,0]))
+					!this.collision(this.walls, [-1,0]))
 						dirs.push([-1,0]);
 					break;
 				case 3:  // right
 					if ("[1,0]" != JSON.stringify(this.dir) && "[" + 1 * -1 + "," + 0 * -1 + "]" != JSON.stringify(this.dir) &&
-					!this.collision(wallsGhost, [1,0]))
+					!this.collision(this.walls, [1,0]))
 						dirs.push([1,0]);
 					break;
 			}
@@ -107,7 +113,7 @@ function _ghost(x,y) {
 					pathfind = true;
 					newDir = pfDirs[Math.floor(Math.random() * pfDirs.length)];
 				} else {
-					if ((this.dir[0] == goodDir[0] || this.dir[1] == goodDir[1]) && !this.collision(wallsGhost))
+					if ((this.dir[0] == goodDir[0] || this.dir[1] == goodDir[1]) && !this.collision(this.walls))
 						pathfind = true;
 				}
 			}
@@ -122,11 +128,22 @@ function _ghost(x,y) {
 	};
 
 
+	this.checkDoor = function () {
+		if (this.collision(doors, [this.dir[0] * -1, this.dir[1] * -1])) {
+			this.passedDoors = true;
+			for (let count = 0; count < doors.length; count++) {
+				this.walls.push(doors[count]);
+			}
+		}
+	};
+
+
 	this.update = function () {
-		//if (!this.collision(wallsGhost)) this.move();
+		//if (!this.collision(this.walls)) this.move();
 		//else this.changeDir();
 		this.move();
 		this.show();
+		if (!this.passedDoors) this.checkDoor();
 
 		// GAME OVER
 		if (this.collision([Player], this.dir, 0))
@@ -145,7 +162,7 @@ function _ghost(x,y) {
 			}
 		}
 
-		if (applyChangeDir && this.collision(wallsGhost)) {
+		if (applyChangeDir && this.collision(this.walls)) {
 			this.changeDir();
 		}// else {
 			this.x += this.dir[0] * this.spdMult;

@@ -17,6 +17,7 @@ let mapLayout = defMap;
 //let mapLayout = map;
 let walls = [];
 let wallsGhost = [];
+let doors = [];
 let points = [];
 let ghosts = [];
 
