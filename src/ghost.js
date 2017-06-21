@@ -60,47 +60,65 @@ function _ghost(x,y) {
 
 
 	this.changeDir = function () {
-		let newDir = this.dir;
+		let newDir = [this.dir[0], this.dir[1]];
+		let dirs = [];
+		let pathfind = false;
+		for (let count = 0; count < 4; count++) {
+			switch (count) {
+				case 0:  // up
+					if ("[0,-1]" != JSON.stringify(this.dir) && "[" + 0 * -1 + "," + -1 * -1 + "]" != JSON.stringify(this.dir) &&
+					!this.collision(wallsGhost, [0,-1]))
+						dirs.push([0,-1]);
+					break;
+				case 1:  // down
+					if ("[0,1]" != JSON.stringify(this.dir) && "[" + 0 * -1 + "," + 1 * -1 + "]" != JSON.stringify(this.dir) &&
+					!this.collision(wallsGhost, [0,1]))
+						dirs.push([0,1]);
+					break;
+				case 2:  // left
+					if ("[-1,0]" != JSON.stringify(this.dir) && "[" + -1 * -1 + "," + 0 * -1 + "]" != JSON.stringify(this.dir) &&
+					!this.collision(wallsGhost, [-1,0]))
+						dirs.push([-1,0]);
+					break;
+				case 3:  // right
+					if ("[1,0]" != JSON.stringify(this.dir) && "[" + 1 * -1 + "," + 0 * -1 + "]" != JSON.stringify(this.dir) &&
+					!this.collision(wallsGhost, [1,0]))
+						dirs.push([1,0]);
+					break;
+			}
+		}
 
-		while (JSON.stringify(newDir) == JSON.stringify(this.dir) && JSON.stringify([newDir[0] * -1, newDir[1] * -1]) == JSON.stringify(this.dir)) {
-
-			// try to move towards player / pathfind
-			let pathfind = false;
+		if (dirs.length > 0) {
+			// pathfind - try to move towards player
 			if (Math.random() <= settings.ghostTrackChance) {
-				pathfind = true;
-				// randomly go left/right or up/down first
-				if (Math.round(Math.random()) == 0) {  // left/right
-					if (Player.x < this.x) {  // go left
-						newDir = [-1,0];
-					} else if (Player.x > this.x) {  // go right
-						newDir = [1,0];
-					} else pathfind = false;
-				} else {  // up/down
-					if (Player.y < this.y) {  // go up
-						newDir = [0,-1];
-					} else if (Player.y > this.y) {  // go down
-						newDir = [0,1];
-					} else pathfind = false;
+				let pfDirs = [];
+				let goodDir = [0,0];
+
+				if (Player.x < this.x) goodDir[0] = -1;
+				else if (Player.x > this.x) goodDir[0] = 1;
+				if (Player.y < this.y) goodDir[1] = -1;
+				else if (Player.y > this.y) goodDir[1] = 1;
+
+				for (let count = 0; count < dirs.length; count++) {
+					if (goodDir[0] != 0 && goodDir[0] == dirs[count][0]) pfDirs.push(dirs[count]);
+					else if (goodDir[1] != 0 && goodDir[1] == dirs[count][1]) pfDirs.push(dirs[count]);
 				}
-				if (pathfind && JSON.stringify([newDir[0] * -1, newDir[1] * -1]) == JSON.stringify(this.dir) || this.collision(wallsGhost, newDir)) {
-					pathfind = false;
+				if (pfDirs.length > 0) {
+					pathfind = true;
+					newDir = pfDirs[Math.floor(Math.random() * pfDirs.length)];
+				} else {
+					console.log("no good path");
+					if ((this.dir[0] == goodDir[0] || this.dir[1] == goodDir[1]) && !this.collision(wallsGhost))
+						pathfind = true;
 				}
 			}
 
 			if (!pathfind) {
-				let axis = Math.round(Math.random()) ? "x" : "y";
-				let direction = Math.round(Math.random());
-				if (direction == 0) direction = -1;
-				switch (axis) {
-					case "x":
-						newDir = [direction,0];
-						break;
-					case "y":
-						newDir = [0,direction];
-						break;
-				}
+				newDir = dirs[Math.floor(Math.random() * dirs.length)];
 			}
 		}
+		else newDir = this.dir;
+
 		this.dir = newDir;
 	};
 
@@ -119,59 +137,25 @@ function _ghost(x,y) {
 
 	this.move = function () {
 
+		let applyChangeDir = true;
 		// if is aligned with grid
 		if ((this.x - settings.blockSize / 2) % settings.blockSize == 0 && (this.y - settings.blockSize / 2) % settings.blockSize == 0) {
-
-			// try to move towards player / pathfind
-			let newDir = this.dir;
-			let pathfind = false;
-			if (Math.random() <= settings.ghostTrackChance) {
-				pathfind = true;
-				// randomly go left/right or up/down first
-				if (Math.round(Math.random()) == 0) {  // left/right
-					if (Player.x < this.x) {  // go left
-						newDir = [-1,0];
-					} else if (Player.x > this.x) {  // go right
-						newDir = [1,0];
-					} else pathfind = false;
-				} else {  // up/down
-					if (Player.y < this.y) {  // go up
-						newDir = [0,-1];
-					} else if (Player.y > this.y) {  // go down
-						newDir = [0,1];
-					} else pathfind = false;
-				}
-				if (pathfind && JSON.stringify([newDir[0] * -1, newDir[1] * -1]) == JSON.stringify(this.dir) || this.collision(wallsGhost, newDir)) {
-					pathfind = false;
-				}
-				else this.dir = newDir;
-			}
-
-			if (!pathfind) {
-				if (Math.round(Math.random()) == 1) {
-					if (this.dir[0] == 0) {  // check right/left
-						let direction = Math.round(Math.random()) ? 1 : -1;
-						if (!this.collision(wallsGhost, [direction,0])) {
-							this.dir = [direction,0];
-						}
-					} else
-					if (this.dir[1] == 0) {  // check up/down
-						let direction = Math.round(Math.random()) ? 1 : -1;
-						if (!this.collision(wallsGhost, [0,direction])) {
-							this.dir = [0,direction];
-						}
-					}
-				}
+			if (Math.round(Math.random()) == 1) {
+				applyChangeDir = false;
+				this.changeDir();
 			}
 		}
 
-		if (!this.collision(wallsGhost)) {
+		if (applyChangeDir && this.collision(wallsGhost)) {
+			this.changeDir();
+		}// else {
 			this.x += this.dir[0] * this.spdMult;
 			this.y += this.dir[1] * this.spdMult;
-		} else this.changeDir();
+		//}
 		// check offscreen (x)
 		if (this.x < 0) this.x = settings.canvasWidth;
 		else if (this.x > settings.canvasWidth) this.x = 0;
+
 	};
 
 	
