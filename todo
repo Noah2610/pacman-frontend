@@ -14,6 +14,7 @@ increase difficulty after beating the game
 
 
 (
-lives?
-timer?
+lives
+timer
+make ghosts wobble
 )
