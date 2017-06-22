@@ -208,6 +208,9 @@ function _ghost(x,y) {
 	this.die = function () {
 		// increase player score
 		Player.score += settings.killScoreIncr;
+		// update score display
+		scoreEl.innerHTML = Player.score;
+
 
 		this.active = false;
 		this.x = this.origin[0];

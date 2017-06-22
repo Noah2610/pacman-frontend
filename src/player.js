@@ -79,7 +79,7 @@ function _player(x=32+settings.blockSize/2, y=32+settings.blockSize/2) {
 						let pntIncr = settings.pointScoreInrc;
 						if (this.foodActive) pntIncr * settings.scoreFoodMult;
 						this.score += pntIncr;
-						scoreEl.innerHTML = "<b>" + this.score + "</b>";
+						scoreEl.innerHTML = this.score;
 						mapLayout[row][col] = "-";
 						Map.mkArrays();
 						// win condition
@@ -97,7 +97,7 @@ function _player(x=32+settings.blockSize/2, y=32+settings.blockSize/2) {
 						let scrIncr = settings.foodScoreInrc;
 						if (this.foodActive) scrIncr * settings.scoreFoodMult;
 						this.score += scrIncr;
-						scoreEl.innerHTML = "<b>" + this.score + "</b>";
+						scoreEl.innerHTML = this.score;
 						mapLayout[row][col] = "-";
 						Map.mkArrays();
 						// activate food effect

@@ -76,7 +76,7 @@ function setup() {
 	// display highscore if it exists (local storage)
 	let hiScore = localStorage.getItem("highscore");
 	if (hiScore) {
-		highscoreEl.innerHTML = "<b>" + hiScore + "</b>";
+		highscoreEl.innerHTML = hiScore;
 	}
 	// display total games won if it exists (local storage)
 	if (localStorage.getItem("gamesWon")) mkGamesWonEl();
@@ -104,8 +104,9 @@ function mkGamesWonEl() {
 	let tdTitleEl = document.createElement("td");
 	let tdNumEl = document.createElement("td");
 	tdTitleEl.innerHTML = "Total Games Won: ";
-	tdNumEl.innerHTML = "<b>" + gamesWon + "</b>";
+	tdNumEl.innerHTML = gamesWon;
 	tdNumEl.id = "gamesWon";
+	tdNumEl.className = "bold";
 	table.appendChild(trEl);
 	trEl.appendChild(tdTitleEl);
 	trEl.appendChild(tdNumEl);
@@ -137,7 +138,7 @@ function gameOver() {
 		fill(0,255,0);
 		text("\n\n\nNew Highscore!", settings.canvasWidth / 2, settings.canvasHeight / 2);
 		// update highscore element
-		highscoreEl.innerHTML = "<b>" + Player.score +"</b>";
+		highscoreEl.innerHTML = Player.score;
 	}
 
 }
@@ -170,7 +171,7 @@ function win() {
 		gamesWon++;
 		localStorage.setItem("gamesWon", gamesWon);
 		// update total games won element
-		document.querySelector("#gamesWon").innerHTML = "<b>" + gamesWon + "</b>";
+		document.querySelector("#gamesWon").innerHTML = gamesWon;
 	}
 
 	text("You Win!\nFinal Score: " + Player.score, settings.canvasWidth / 2, settings.canvasHeight / 2);
@@ -179,7 +180,7 @@ function win() {
 		fill(0,255,0);
 		text("\n\n\nNew Highscore!", settings.canvasWidth / 2, settings.canvasHeight / 2);
 		// update highscore element
-		highscoreEl.innerHTML = "<b>" + Player.score +"</b>";
+		highscoreEl.innerHTML = Player.score;
 	}
 }
 
