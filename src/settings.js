@@ -24,6 +24,8 @@ let settings = {
 	ghostBlinkLen: 1/4,
 	ghostBlinkInterval: 100,
 	ghostVulnSpdMult: 1,
+	ghostWobbleBound: 8,
+	ghostWobbleInterval: 30,
 
 	killScoreIncr: 200
 };

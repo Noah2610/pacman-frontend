@@ -24,6 +24,9 @@ function _ghost(x,y) {
 	this.startBlinkTimeout;
 	this.stopBlinkTimeout;
 	this.trackChance = settings.ghostTrackChance;
+	this.rotation = 0;
+	this.wobbleInterval;
+	this.wobbleIncr = 1;
 
 
 
@@ -221,6 +224,16 @@ function _ghost(x,y) {
 	};
 
 
+	this.wobble = function () {
+		this.wobbleInterval = setInterval(function (g) {
+			let bound = settings.ghostWobbleBound;
+			g.rotation += g.wobbleIncr;
+			if (g.rotation >= bound || g.rotation * -1 >= bound)
+				g.wobbleIncr = g.wobbleIncr * -1;
+		}, settings.ghostWobbleInterval, this);
+	};
+
+
 	this.update = function () {
 		if (this.active) {
 			//if (!this.collision(this.walls)) this.move();
@@ -267,13 +280,20 @@ function _ghost(x,y) {
 
 	
 	this.show = function () {
+		push();
 		imageMode(CENTER);
-		// move origin point so rotation looks correct
+		angleMode(DEGREES);
+		translate(this.x, this.y);
+		rotate(this.rotation);
 		//image(this.img, this.x,this.y, settings.ghostSize,settings.ghostSize);
-		image(this.img, this.x,this.y , settings.ghostSize,settings.ghostSize);
+		image(this.img, 0,0, settings.ghostSize,settings.ghostSize);
+		pop();
 	};
 
 
 	// start moving
 	this.changeDir();
+	// start wobbling
+	this.wobble();
+
 }

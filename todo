@@ -21,7 +21,7 @@ respawn food or randomly spawn food
 lives
 timer
 increase difficulty after beating the game
-make ghosts wobble
+# make ghosts wobble
 little score text floating upwards when gaining score
 	maybe only when food active
 )
