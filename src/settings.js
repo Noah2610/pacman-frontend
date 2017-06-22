@@ -12,7 +12,8 @@ let settings = {
 
 	pointSize: 8,
 	pointScoreInrc: 10,
-	pointFoodMult: 2,
+
+	scoreFoodMult: 2,
 
 	foodScoreInrc: 25,
 

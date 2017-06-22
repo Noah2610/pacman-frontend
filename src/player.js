@@ -77,7 +77,7 @@ function _player(x=32+settings.blockSize/2, y=32+settings.blockSize/2) {
 				for (let col = 0; col < mapLayout[0].length; col++) {
 					if (pntCollide[1] == row && pntCollide[0] == col) {
 						let pntIncr = settings.pointScoreInrc;
-						if (this.foodActive) pntIncr * settings.pointFoodMult;
+						if (this.foodActive) pntIncr * settings.scoreFoodMult;
 						this.score += pntIncr;
 						scoreEl.innerHTML = "<b>" + this.score + "</b>";
 						mapLayout[row][col] = "-";
@@ -94,7 +94,9 @@ function _player(x=32+settings.blockSize/2, y=32+settings.blockSize/2) {
 			for (let row = 0; row < mapLayout.length; row++) {
 				for (let col = 0; col < mapLayout[0].length; col++) {
 					if (foodCollide[1] == row && foodCollide[0] == col) {
-						this.score += settings.foodScoreInrc;
+						let scrIncr = settings.foodScoreInrc;
+						if (this.foodActive) scrIncr * settings.scoreFoodMult;
+						this.score += scrIncr;
 						scoreEl.innerHTML = "<b>" + this.score + "</b>";
 						mapLayout[row][col] = "-";
 						Map.mkArrays();
@@ -103,6 +105,8 @@ function _player(x=32+settings.blockSize/2, y=32+settings.blockSize/2) {
 						// make ghosts slower
 						for (let count = 0; count < ghosts.length; count++) {
 							ghosts[count].spdMult = settings.ghostVulnSpdMult;
+							clearInterval(ghosts[count].blinkInterval);
+							clearTimeout(ghosts[count].stopBlinkInterval);
 						}
 						clearInterval(this.foodTimeout);
 						this.foodTimeout = setTimeout(function () {
@@ -114,7 +118,7 @@ function _player(x=32+settings.blockSize/2, y=32+settings.blockSize/2) {
 									g.visible = !g.visible;
 								}, settings.ghostBlinkInterval, g);
 
-								setTimeout(function (g) {
+								g.stopBlinkInterval = setTimeout(function (g) {
 									// stop blinking
 									Player.foodActive = false;
 									clearInterval(g.blinkInterval);

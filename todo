@@ -12,10 +12,13 @@ make player be part of map (spawn where he's put)
 # static highscore display
 increase difficulty after beating the game
 # local storage: store total games won
+alternative ghost movement behaviour when vulnerable
 
 
 (
 lives
 timer
 make ghosts wobble
+little score text floating upwards when gaining score
+	maybe only when food active
 )

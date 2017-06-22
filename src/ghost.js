@@ -21,6 +21,8 @@ function _ghost(x,y) {
 	this.img = this.imgs[0];
 	this.active = true;
 	this.visible = true;
+	this.blinkInterval;
+	this.stopBlinkInterval;
 
 
 
