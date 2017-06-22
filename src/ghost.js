@@ -12,7 +12,6 @@ function _ghost(x,y) {
 		this.walls.push(wall);
 	});
 	this.passedDoors = false;
-
 	if (ghosts.length < 4) {
 		this.imgs = spr.ghosts[ghosts.length];
 	} else {
@@ -23,6 +22,7 @@ function _ghost(x,y) {
 	this.visible = true;
 	this.blinkInterval;
 	this.stopBlinkInterval;
+	this.trackChance = settings.ghostTrackChance;
 
 
 
@@ -102,7 +102,7 @@ function _ghost(x,y) {
 
 		if (dirs.length > 0) {
 			// pathfind - try to move towards player
-			if (Math.random() <= settings.ghostTrackChance) {
+			if (Math.random() <= this.trackChance) {
 				let pfDirs = [];
 				let goodDir = [0,0];
 
@@ -110,6 +110,11 @@ function _ghost(x,y) {
 				else if (Player.x > this.x) goodDir[0] = 1;
 				if (Player.y < this.y) goodDir[1] = -1;
 				else if (Player.y > this.y) goodDir[1] = 1;
+
+				// reverse pathfinding direction when vulnerable
+				if (Player.foodActive) {
+					goodDir = [goodDir[0] * -1, goodDir[1] * -1];
+				}
 
 				for (let count = 0; count < dirs.length; count++) {
 					if (goodDir[0] != 0 && goodDir[0] == dirs[count][0]) pfDirs.push(dirs[count]);

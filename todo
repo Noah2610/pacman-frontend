@@ -10,14 +10,17 @@
 make player be part of map (spawn where he's put)
 # block ghosts from going back into their spawn
 # static highscore display
-increase difficulty after beating the game
 # local storage: store total games won
-alternative ghost movement behaviour when vulnerable
+# alternative ghost movement behaviour when vulnerable
+respawn food or randomly spawn food
+refactor ghost vulnerabilty / player food mechanic
+	(it's a mess)
 
 
 (
 lives
 timer
+increase difficulty after beating the game
 make ghosts wobble
 little score text floating upwards when gaining score
 	maybe only when food active

@@ -102,9 +102,10 @@ function _player(x=32+settings.blockSize/2, y=32+settings.blockSize/2) {
 						Map.mkArrays();
 						// activate food effect
 						this.foodActive = true;
-						// make ghosts slower
+						// adjust ghosts variables etc
 						for (let count = 0; count < ghosts.length; count++) {
 							ghosts[count].spdMult = settings.ghostVulnSpdMult;
+							ghosts[count].trackChance = 1;
 							clearInterval(ghosts[count].blinkInterval);
 							clearTimeout(ghosts[count].stopBlinkInterval);
 						}
@@ -122,9 +123,10 @@ function _player(x=32+settings.blockSize/2, y=32+settings.blockSize/2) {
 									// stop blinking
 									Player.foodActive = false;
 									clearInterval(g.blinkInterval);
-									ghosts[count].changeSpr();
+									g.changeSpr();
 									g.visible = true;
 									g.spdMult = settings.playerSpdMult;
+									g.trackChance = settings.ghostTrackChance;
 								}, settings.playerFoodTime * settings.ghostBlinkLen, g);
 							}
 						}, settings.playerFoodTime - settings.playerFoodTime * settings.ghostBlinkLen);
