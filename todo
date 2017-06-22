@@ -13,8 +13,8 @@ make player be part of map (spawn where he's put)
 # local storage: store total games won
 # alternative ghost movement behaviour when vulnerable
 respawn food or randomly spawn food
-refactor ghost vulnerabilty / player food mechanic
-	(it's a mess)
+# refactor ghost vulnerabilty / player food mechanic
+	# (it's a mess)
 
 
 (

@@ -21,7 +21,8 @@ function _ghost(x,y) {
 	this.active = true;
 	this.visible = true;
 	this.blinkInterval;
-	this.stopBlinkInterval;
+	this.startBlinkTimeout;
+	this.stopBlinkTimeout;
 	this.trackChance = settings.ghostTrackChance;
 
 
@@ -169,6 +170,35 @@ function _ghost(x,y) {
 				this.walls.push(doors[count]);
 			}
 		}
+	};
+
+
+	this.vuln = function () {
+		// clear intervals and timeouts
+		clearTimeout(this.startBlinkTimeout);
+		clearTimeout(this.stopBlinkTimeout);
+		clearInterval(this.blinkInterval);
+		// adjust variables
+		this.spdMult = settings.ghostVulnSpdMult;
+		this.trackChance = 1;
+		this.visible = true;
+		
+		this.startBlinkTimeout = setTimeout(function (g) {
+			// start blinking
+			g.blinkInterval = setInterval(function (g) {
+				g.visible = !g.visible;
+			}, settings.ghostBlinkInterval, g);
+
+			// stop blinking
+			g.stopBlinkTimeout = setTimeout(function (g) {
+				clearInterval(g.blinkInterval);
+				g.changeSpr();
+				g.visible = true;
+				g.spdMult = settings.playerSpdMult;
+				g.trackChance = settings.ghostTrackChance;
+			}, settings.playerFoodTime * settings.ghostBlinkLen, g);
+		}, settings.playerFoodTime - settings.playerFoodTime * settings.ghostBlinkLen, this);
+
 	};
 
 	

@@ -101,35 +101,15 @@ function _player(x=32+settings.blockSize/2, y=32+settings.blockSize/2) {
 						mapLayout[row][col] = "-";
 						Map.mkArrays();
 						// activate food effect
+						clearTimeout(this.foodTimeout);
 						this.foodActive = true;
-						// adjust ghosts variables etc
 						for (let count = 0; count < ghosts.length; count++) {
-							ghosts[count].spdMult = settings.ghostVulnSpdMult;
-							ghosts[count].trackChance = 1;
-							clearInterval(ghosts[count].blinkInterval);
-							clearTimeout(ghosts[count].stopBlinkInterval);
+							if (ghosts[count].active) ghosts[count].vuln();
 						}
-						clearInterval(this.foodTimeout);
-						this.foodTimeout = setTimeout(function () {
-							for (let count = 0; count < ghosts.length; count++) {
-								let g = ghosts[count];
+						this.foodTimeout = setTimeout(function (p) {
+							p.foodActive = false;
+						}, settings.playerFoodTime, this);
 
-								// start blinking
-								g.blinkInterval = setInterval(function (g) {
-									g.visible = !g.visible;
-								}, settings.ghostBlinkInterval, g);
-
-								g.stopBlinkInterval = setTimeout(function (g) {
-									// stop blinking
-									Player.foodActive = false;
-									clearInterval(g.blinkInterval);
-									g.changeSpr();
-									g.visible = true;
-									g.spdMult = settings.playerSpdMult;
-									g.trackChance = settings.ghostTrackChance;
-								}, settings.playerFoodTime * settings.ghostBlinkLen, g);
-							}
-						}, settings.playerFoodTime - settings.playerFoodTime * settings.ghostBlinkLen);
 					}
 				}
 			}
