@@ -4,16 +4,19 @@ const objects = {
 		function (x,y) { /* do nothing */ }
 	],
 	"_": [ "tileImpass",
-		function (x,y) { fill(64); rectMode(CENTER); rect(x,y,settings.blockSize,settings.blockSize); }
+		function (x,y) { fill(64); rect(x,y,settings.blockSize,settings.blockSize); }
 	],
 	".": [ "point",
-		function (x,y) { fill(255,255,0); ellipseMode(CENTER); ellipse(x,y,settings.pointSize); }
+		function (x,y) { fill(255,255,0); ellipse(x,y,settings.pointSize); }
 	],
 	"#": [ "wall",
-		function (x,y) { fill(0,0,255); rectMode(CENTER); rect(x,y,settings.blockSize,settings.blockSize); }
+		function (x,y) { fill(0,0,255); rect(x,y,settings.blockSize,settings.blockSize); }
 	],
 	"G": [ "ghost",
-		function (x,y) { fill(255); rectMode(CENTER); rect(x,y, settings.ghostSize,settings.ghostSize); }
+		function (x,y) { /* do nothing */ }
+	],
+	"F": ["food",
+		function (x,y) { fill(255,0,0); rect(x,y, 24,24); }
 	]
 };
 
@@ -22,6 +25,8 @@ const Map = {
 
 	show: function () {
 		noStroke();
+		rectMode(CENTER);
+		ellipseMode(CENTER);
 		//for (let row = 0; row < settings.canvasHeight / settings.blockSize; row++) {
 			//for (let col = 0; col < settings.canvasWidth / settings.blockSize; col++) {
 		for (let row = 0; row < mapLayout.length; row++) {
@@ -35,6 +40,7 @@ const Map = {
 	mkArrays: function () {
 		walls = [];
 		points = [];
+		foods = [];
 		let ghostsTmp = [];
 		for (let row = 0; row < mapLayout.length; row++) {
 			for (let col = 0; col < mapLayout[0].length; col++) {
@@ -65,6 +71,16 @@ const Map = {
 					let x = col * settings.blockSize + settings.blockSize / 2;
 					let y = row * settings.blockSize + settings.blockSize / 2;
 					ghostsTmp.push({ x: x, y: y });
+				} else
+				// food
+				if (objects[mapLayout[row][col]][0] == "food") {
+					let x = col * settings.blockSize + settings.blockSize / 2;
+					let y = row * settings.blockSize + settings.blockSize / 2;
+					foods.push({
+						x1: x, y1: y,
+						x2: x + settings.blockSize, y2: y + settings.blockSize,
+						id: [col,row]
+					});
 				}
 
 			}

@@ -2,10 +2,11 @@
 # (rotate ghosts)
 	# create ghosts look up / down sprites
 # make ghosts semi-pathfind
-add food (power-up)
-	-> ability to kill ghosts after eating food
-	-> ghost respawn when killed
-improve scoring system
+# add food (power-up)
+	# -> ability to kill ghosts after eating food
+	# -> ghost respawn when killed
+# improve scoring system
+	can still be better
 make player be part of map (spawn where he's put)
 # block ghosts from going back into their spawn
 # static highscore display

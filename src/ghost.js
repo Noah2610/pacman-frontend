@@ -1,10 +1,11 @@
 
 
 function _ghost(x,y) {
+	this.origin = [x,y];
 	this.x = x;
 	this.y = y;
 	this.dir = [0,0];
-	this.spdMult = 2;
+	this.spdMult = settings.playerSpdMult;
 	//this.walls = wallsGhost;
 	this.walls = [];
 	wallsGhost.forEach((wall) => {
@@ -18,6 +19,8 @@ function _ghost(x,y) {
 		this.imgs = spr.ghosts[4];
 	}
 	this.img = this.imgs[0];
+	this.active = true;
+	this.visible = true;
 
 
 
@@ -128,19 +131,26 @@ function _ghost(x,y) {
 		this.dir = newDir;
 
 		// change sprite
-		switch (JSON.stringify(this.dir)) {
-			case "[0,-1]":
-				this.img = this.imgs[0];
-				break;
-			case "[0,1]":
-				this.img = this.imgs[1];
-				break;
-			case "[-1,0]":
-				this.img = this.imgs[2];
-				break;
-			case "[1,0]":
-				this.img = this.imgs[3];
-				break;
+		this.changeSpr();
+	};
+
+
+	this.changeSpr = function () {
+		if (!Player.foodActive) {
+			switch (JSON.stringify(this.dir)) {
+				case "[0,-1]":
+					this.img = this.imgs[0];
+					break;
+				case "[0,1]":
+					this.img = this.imgs[1];
+					break;
+				case "[-1,0]":
+					this.img = this.imgs[2];
+					break;
+				case "[1,0]":
+					this.img = this.imgs[3];
+					break;
+			}
 		}
 	};
 
@@ -154,17 +164,44 @@ function _ghost(x,y) {
 		}
 	};
 
+	
+	this.die = function () {
+		// increase player score
+		Player.score += settings.killScoreIncr;
+
+		this.active = false;
+		this.x = this.origin[0];
+		this.y = this.origin[1];
+		setTimeout(function (g) {
+			g.active = true;
+			g.changeSpr();
+			g.passedDoors = false;
+			g.walls = [];
+			for (let count = 0; count < wallsGhost.length; count++) {
+				g.walls.push(wallsGhost[count]);
+			}
+		}, settings.ghostDeadTime, this);
+	};
+
 
 	this.update = function () {
-		//if (!this.collision(this.walls)) this.move();
-		//else this.changeDir();
-		this.move();
-		this.show();
-		if (!this.passedDoors) this.checkDoor();
+		if (this.active) {
+			//if (!this.collision(this.walls)) this.move();
+			//else this.changeDir();
+			// change to wobble sprite
+			if (Player.foodActive) this.img = spr.ghostWobble;
+			this.move();
+			if (this.visible) this.show();
+			if (!this.passedDoors) this.checkDoor();
 
-		// GAME OVER
-		if (this.collision([Player], this.dir, 0))
-			gameOver();
+			// GAME OVER
+			if (this.collision([Player], this.dir, 0)) {
+				if (Player.foodActive)
+					this.die();
+				else
+					gameOver();
+			}
+		}
 	};
 
 

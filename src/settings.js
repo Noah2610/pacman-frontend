@@ -8,12 +8,22 @@ let settings = {
 
 	playerImgInterval: 75,
 	playerSpdMult: 2,
+	playerFoodTime: 5000,
 
 	pointSize: 8,
 	pointScoreInrc: 10,
+	pointFoodMult: 2,
+
+	foodScoreInrc: 25,
 
 	ghostSize: 24,
 	ghostTrackChance: 0.5,
-	ghostScoreIncr: 100
+	ghostScoreIncr: 100,
+	ghostDeadTime: 4000,
+	ghostBlinkLen: 1/4,
+	ghostBlinkInterval: 100,
+	ghostVulnSpdMult: 1,
+
+	killScoreIncr: 200
 };
 settings.playerSize = settings.blockSize - 2;

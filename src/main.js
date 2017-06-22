@@ -20,6 +20,7 @@ let wallsGhost = [];
 let doors = [];
 let points = [];
 let ghosts = [];
+let foods = [];
 
 
 function preload() {
