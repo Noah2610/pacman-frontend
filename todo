@@ -15,6 +15,9 @@ make player be part of map (spawn where he's put)
 respawn food or randomly spawn food
 # refactor ghost vulnerabilty / player food mechanic
 	# (it's a mess)
+make game over or game won text overlap everything
+add more maps
+	maybe switch to different map when player wins
 
 
 (
@@ -24,4 +27,5 @@ increase difficulty after beating the game
 # make ghosts wobble
 little score text floating upwards when gaining score
 	maybe only when food active
+find a method of making ghosts leave spawn asap
 )
