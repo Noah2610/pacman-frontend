@@ -21,6 +21,7 @@ let doors = [];
 let points = [];
 let ghosts = [];
 let foods = [];
+let scoreTexts = [];
 
 
 function preload() {
@@ -202,6 +203,46 @@ function keyPressed() {
 }
 
 
+function scoreText(score, x,y,
+	color = [128,255,0],
+	size = 16,
+	moveStep = settings.scoreTextMoveStep,
+	moveInterval = settings.scoreTextMoveInterval,
+	moveStop = settings.scoreTextMoveStopTime
+) {
+	let obj = {
+		pos: [x,y],
+		index: scoreTexts.length,
+		moveInterval: false,
+
+		move: function () {
+			this.moveInterval = setInterval(function (t) {
+				t.pos[1] -= moveStep;
+				//console.log(t.pos);
+			}, moveInterval, this);
+
+			this.moveStopTimeout = setTimeout(function (t) {
+				clearInterval(t.moveInterval);
+				scoreTexts.splice(t.index, 1);
+				for (let count = 0; count < scoreTexts.length; count++) scoreTexts[count].index = count;
+			}, moveStop, this);
+		},
+
+		show: function () {
+			textAlign(CENTER,CENTER);
+			textSize(size);
+			strokeWeight(2);
+			stroke(0);
+			fill(color);
+			text(score, this.pos[0],this.pos[1]);
+		}
+	};
+
+	scoreTexts.push(obj);
+	scoreTexts[scoreTexts.length - 1].move();
+}
+
+
 
 function draw() {
 	if (gameRunning) {
@@ -215,5 +256,10 @@ function draw() {
 
 		// call player update function last due to rotation
 		Player.update();
+
+		// display score text
+		for (let count = 0; count < scoreTexts.length; count++) {
+			scoreTexts[count].show();
+		}
 	}
 }

@@ -18,6 +18,7 @@ make player be part of map (spawn where he's put)
 make game over or game won text overlap everything
 add more maps
 	maybe switch to different map when player wins
+original pacman mechanic: double score gain for eating ghosts each time a ghost is eaten
 
 
 (
@@ -25,7 +26,7 @@ lives
 timer
 increase difficulty after beating the game
 # make ghosts wobble
-little score text floating upwards when gaining score
-	maybe only when food active
+# little score text floating upwards when gaining score
+	# maybe only when food active
 # find a method of making ghosts leave spawn asap
 )

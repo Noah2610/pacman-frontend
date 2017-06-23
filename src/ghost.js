@@ -157,8 +157,8 @@ function _ghost(x,y) {
 	};
 
 
-	this.changeSpr = function () {
-		if (!this.vulnerable) {
+	this.changeSpr = function (forceDefault=false) {
+		if (!this.vulnerable || forceDefault) {
 			switch (JSON.stringify(this.dir)) {
 				case "[0,-1]":
 					this.img = this.imgs[0];
@@ -210,7 +210,7 @@ function _ghost(x,y) {
 			// stop blinking
 			g.stopBlinkTimeout = setTimeout(function (g) {
 				clearInterval(g.blinkInterval);
-				g.changeSpr();
+				g.changeSpr(true);
 				g.visible = true;
 				g.vulnerable = false;
 				g.spdMult = settings.playerSpdMult;
@@ -222,19 +222,21 @@ function _ghost(x,y) {
 
 	
 	this.die = function () {
-		// increase player score
-		Player.score += settings.killScoreIncr;
-		// update score display
-		scoreEl.innerHTML = Player.score;
-
-
+		// clear intervals and timeouts for vulnerability
+		clearTimeout(this.startBlinkTimeout);
+		clearTimeout(this.stopBlinkTimeout);
+		clearInterval(this.blinkInterval);
+		this.vulnerable = false;
+		this.spdMult = settings.playerSpdMult;
 		this.active = false;
 		this.x = this.origin[0];
 		this.y = this.origin[1];
 		setTimeout(function (g) {
+
 			g.active = true;
-			g.changeSpr();
+			g.changeSpr(true);
 			g.passedDoors = false;
+			g.visible = true;
 			g.walls = [];
 			for (let count = 0; count < wallsGhost.length; count++) {
 				g.walls.push(wallsGhost[count]);
@@ -264,16 +266,17 @@ function _ghost(x,y) {
 
 			// GAME OVER
 			if (this.collision([Player], this.dir, 0)) {
-				if (Player.foodActive)
+				if (this.vulnerable) {
 					this.die();
-				else
-					gameOver();
+					Player.kill();
+				} else gameOver();
 			}
 		}
 	};
 
 
 	this.move = function () {
+		if (!this.passedDoors) this.trackChance = 1;
 
 		let applyChangeDir = true;
 		// if is aligned with grid

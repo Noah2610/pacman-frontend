@@ -10,6 +10,7 @@ function _player(x=32+settings.blockSize/2, y=32+settings.blockSize/2) {
 	this.rotation = 0;
 	this.foodActive = false;
 	this.foodTimeout;
+	this.killScoreMult = 1;
 
 	// for collision checking with ghosts
 	this.x1 = this.x - settings.playerSize / 2;
@@ -63,6 +64,19 @@ function _player(x=32+settings.blockSize/2, y=32+settings.blockSize/2) {
 	};
 
 
+	this.kill = function () {
+		// increase score
+		let scoreIncr = settings.killScoreIncr * this.killScoreMult;
+		this.score += scoreIncr;
+		// update score display
+		scoreEl.innerHTML = Player.score;
+		// increase kill score multiplier
+		this.killScoreMult += 1;
+		// display score text
+		scoreText(scoreIncr, this.x,this.y, [255,128,0], 24, 1, 50, 1500);
+	};
+
+
 	this.update = function () {
 		this.changeDir();
 
@@ -77,11 +91,12 @@ function _player(x=32+settings.blockSize/2, y=32+settings.blockSize/2) {
 				for (let col = 0; col < mapLayout[0].length; col++) {
 					if (pntCollide[1] == row && pntCollide[0] == col) {
 						let pntIncr = settings.pointScoreInrc;
-						if (this.foodActive) pntIncr * settings.scoreFoodMult;
+						if (this.foodActive) pntIncr *= settings.scoreFoodMult;
 						this.score += pntIncr;
 						scoreEl.innerHTML = this.score;
 						mapLayout[row][col] = "-";
 						Map.mkArrays();
+						scoreText(pntIncr, this.x,this.y, [200,255,0], 12, 1, 50, 500);
 						// win condition
 						if (points.length == 0) win();
 					}
@@ -95,11 +110,12 @@ function _player(x=32+settings.blockSize/2, y=32+settings.blockSize/2) {
 				for (let col = 0; col < mapLayout[0].length; col++) {
 					if (foodCollide[1] == row && foodCollide[0] == col) {
 						let scrIncr = settings.foodScoreInrc;
-						if (this.foodActive) scrIncr * settings.scoreFoodMult;
+						if (this.foodActive) scrIncr *= settings.scoreFoodMult;
 						this.score += scrIncr;
 						scoreEl.innerHTML = this.score;
 						mapLayout[row][col] = "-";
 						Map.mkArrays();
+						scoreText(scrIncr, this.x,this.y);
 						// set respawn timer for food
 						setTimeout(function (f) {
 							mapLayout[f[0]][f[1]] = "F";
@@ -111,8 +127,10 @@ function _player(x=32+settings.blockSize/2, y=32+settings.blockSize/2) {
 						for (let count = 0; count < ghosts.length; count++) {
 							if (ghosts[count].active) ghosts[count].vuln();
 						}
+						// deactivate food effect
 						this.foodTimeout = setTimeout(function (p) {
 							p.foodActive = false;
+							p.killScoreMult = 1;
 						}, settings.playerFoodTime, this);
 
 					}

@@ -8,12 +8,15 @@ let settings = {
 
 	playerImgInterval: 75,
 	playerSpdMult: 2,
-	playerFoodTime: 5000,
+	playerFoodTime: 7500,
 
 	pointSize: 8,
 	pointScoreInrc: 10,
 
 	scoreFoodMult: 2,
+	scoreTextMoveStopTime: 1000,
+	scoreTextMoveStep: 2,
+	scoreTextMoveInterval: 50,
 
 	foodScoreInrc: 25,
 	foodRespawnTime: 20000,
