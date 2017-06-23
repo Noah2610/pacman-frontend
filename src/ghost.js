@@ -111,13 +111,23 @@ function _ghost(x,y) {
 				let pfDirs = [];
 				let goodDir = [0,0];
 
-				if (Player.x < this.x) goodDir[0] = -1;
-				else if (Player.x > this.x) goodDir[0] = 1;
-				if (Player.y < this.y) goodDir[1] = -1;
-				else if (Player.y > this.y) goodDir[1] = 1;
+				if (this.passedDoors) {
+					if (Player.x < this.x) goodDir[0] = -1;
+					else if (Player.x > this.x) goodDir[0] = 1;
+					if (Player.y < this.y) goodDir[1] = -1;
+					else if (Player.y > this.y) goodDir[1] = 1;
+				} else
+				// move out of spawn
+				if (!this.passedDoors) {
+					let door = doors[Math.floor(Math.random() * doors.length)];
+					if (door.x1 < this.x) goodDir[0] = -1;
+					else if (door.x1 > this.x) goodDir[0] = 1;
+					if (door.y1 < this.y) goodDir[1] = -1;
+					else if (door.y1 > this.y) goodDir[1] = 1;
+				}
 
 				// reverse pathfinding direction when vulnerable
-				if (Player.foodActive) {
+				if (this.vulnerable && this.passedDoors) {
 					goodDir = [goodDir[0] * -1, goodDir[1] * -1];
 				}
 
