@@ -277,6 +277,7 @@ function _ghost(x,y) {
 
 	this.move = function () {
 		if (!this.passedDoors) this.trackChance = 1;
+		else this.trackChance = settings.ghostTrackChance;
 
 		let applyChangeDir = true;
 		// if is aligned with grid

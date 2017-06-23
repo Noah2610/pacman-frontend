@@ -29,4 +29,5 @@ increase difficulty after beating the game
 # little score text floating upwards when gaining score
 	# maybe only when food active
 # find a method of making ghosts leave spawn asap
+add foodActive indicator
 )
