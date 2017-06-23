@@ -27,6 +27,7 @@ function _ghost(x,y) {
 	this.rotation = 0;
 	this.wobbleInterval;
 	this.wobbleIncr = 1;
+	this.vulnerable = false;
 
 
 
@@ -147,7 +148,7 @@ function _ghost(x,y) {
 
 
 	this.changeSpr = function () {
-		if (!Player.foodActive) {
+		if (!this.vulnerable) {
 			switch (JSON.stringify(this.dir)) {
 				case "[0,-1]":
 					this.img = this.imgs[0];
@@ -162,7 +163,9 @@ function _ghost(x,y) {
 					this.img = this.imgs[3];
 					break;
 			}
-		}
+		} else
+		// wobble sprite when vulerable
+		if (this.vulnerable) this.img = spr.ghostWobble;
 	};
 
 
@@ -185,6 +188,8 @@ function _ghost(x,y) {
 		this.spdMult = settings.ghostVulnSpdMult;
 		this.trackChance = 1;
 		this.visible = true;
+		this.vulnerable = true;
+		this.changeSpr();
 		
 		this.startBlinkTimeout = setTimeout(function (g) {
 			// start blinking
@@ -197,6 +202,7 @@ function _ghost(x,y) {
 				clearInterval(g.blinkInterval);
 				g.changeSpr();
 				g.visible = true;
+				g.vulnerable = false;
 				g.spdMult = settings.playerSpdMult;
 				g.trackChance = settings.ghostTrackChance;
 			}, settings.playerFoodTime * settings.ghostBlinkLen, g);
@@ -242,7 +248,6 @@ function _ghost(x,y) {
 			//if (!this.collision(this.walls)) this.move();
 			//else this.changeDir();
 			// change to wobble sprite
-			if (Player.foodActive) this.img = spr.ghostWobble;
 			this.move();
 			if (this.visible) this.show();
 			if (!this.passedDoors) this.checkDoor();
