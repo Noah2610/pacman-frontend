@@ -16,6 +16,7 @@ let settings = {
 	scoreFoodMult: 2,
 
 	foodScoreInrc: 25,
+	foodRespawnTime: 10000,
 
 	ghostSize: 24,
 	ghostTrackChance: 0.5,

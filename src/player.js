@@ -99,6 +99,13 @@ function _player(x=32+settings.blockSize/2, y=32+settings.blockSize/2) {
 						this.score += scrIncr;
 						scoreEl.innerHTML = this.score;
 						mapLayout[row][col] = "-";
+						// set respawn timer for food
+						setTimeout(function (f) {
+							console.log(f);
+							mapLayout[f[0]][f[1]] = "F";
+							Map.mkArrays();
+						}, settings.foodRespawnTime, [row,col]);
+
 						Map.mkArrays();
 						// activate food effect
 						clearTimeout(this.foodTimeout);
