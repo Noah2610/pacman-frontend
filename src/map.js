@@ -16,7 +16,7 @@ const objects = {
 		function (x,y) { /* do nothing */ }
 	],
 	"F": ["food",
-		function (x,y) { fill(255,0,0); rect(x,y, 24,24); }
+		function (x,y) { image(spr.food, x,y, settings.foodSize,settings.foodSize); }
 	]
 };
 
@@ -27,6 +27,7 @@ const Map = {
 		noStroke();
 		rectMode(CENTER);
 		ellipseMode(CENTER);
+		imageMode(CENTER);
 		//for (let row = 0; row < settings.canvasHeight / settings.blockSize; row++) {
 			//for (let col = 0; col < settings.canvasWidth / settings.blockSize; col++) {
 		for (let row = 0; row < mapLayout.length; row++) {
