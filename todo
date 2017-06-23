@@ -18,7 +18,7 @@ make player be part of map (spawn where he's put)
 make game over or game won text overlap everything
 add more maps
 	maybe switch to different map when player wins
-original pacman mechanic: double score gain for eating ghosts each time a ghost is eaten
+# original pacman mechanic: double score gain for eating ghosts each time a ghost is eaten
 
 
 (
